@@ -7,12 +7,39 @@
 </head>
 <body>
 <script>
-computerChoice = () => Math.floor(Math.random()*3);
 let userChoice;
 let userScore = 0;
 let computerScore = 0;
+let computerChoice = () => Math.floor(Math.random()*3);
+const body = document.querySelector("body");
+const button1 = document.createElement("button");
+const button2 = document.createElement("button");
+const button3 = document.createElement("button");
+button1.textContent = 'rock';
+button2.textContent = 'paper';
+button3.textContent = 'scissors';
+body.appendChild(button1);
+body.appendChild(button2);
+body.appendChild(button3);
 
-user2num = choice => {
+button1.addEventListener('click', () => rps('rock'));
+button2.addEventListener('click', () => rps('paper'));
+button3.addEventListener('click', () => rps("scissors"));
+
+const scoreBoard = document.createElement('p');
+const thisRound = document.createElement("p");
+
+thisRound.textContent = `let's play suckers!`
+body.appendChild(thisRound)
+body.appendChild(scoreBoard);
+scoreBoard.textContent = `user: ${userScore}; computer: ${computerScore}`;
+
+function realTalk() {
+scoreBoard.textContent = `user: ${userScore}; computer: ${computerScore}`;
+}
+
+
+let user2num = choice => {
   userChoice = choice.toLowerCase();
     switch(userChoice) {
       case "rock":
@@ -30,33 +57,39 @@ user2num = choice => {
   }
 
 function rps(choice) {
+  if(userScore == 5 || computerScore == 5){
+    userScore = 0;
+    computerScore = 0;
+  }
+
   botsTurn = computerChoice();
   user2num(choice);
-  console.log(userChoice);
-  console.log(botsTurn);
   if (userChoice == botsTurn) {
-    console.log("TIE");
+    thisRound.textContent = "TIE";
   } else if (
     (userChoice == 0 && botsTurn == 1) || 
     (userChoice == 1 && botsTurn == 2) || 
     (userChoice == 2 && botsTurn == 0)
     ) {
-    console.log("loser :(");
+    thisRound.textContent = "loser :(";
     computerScore++;
   } else {
-    console.log("good luck!")
+    thisRound.textContent = "good luck!";
     userScore++
   }
-  if (computerScore == 3) {
-    console.log("thas' it human u looooose")
-    userScore = 0;
-    computerScore = 0;
-  } else if (userScore == 3) {
-    console.log("user ur the beeest!111!!!! :D :D \<3");
-    userScore = 0;
-    computerScore = 0;
+  if (computerScore == 5) {
+    thisRound.textContent = "thas' it human u looooose";
+    realTalk();
+  } else if (userScore == 5) {
+    thisRound.textContent = "user ur the beeest!111!!!! :D :D \<3";
+    realTalk();
   }
+  scoreBoard.textContent = `user: ${userScore}; computer: ${computerScore}`;
 }
+
+
+
+
 </script>
 </body>
 </html>
